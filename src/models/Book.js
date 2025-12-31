@@ -5,9 +5,12 @@ class Book extends Model {
   static init(sequelize) {
     super.init( {
 
-        id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+        isbn: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                len: { args: [10, 13], msg: 'O ISBN deve ter entre 10 e 13 caracteres' },
+            },
             primaryKey: true
         },
 
@@ -20,15 +23,6 @@ class Book extends Model {
             }
         },
 
-        author: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: 'Autor do livro nulo' },
-                notEmpty: { msg: 'Informe o autor do livro' }
-            }
-        },
-
         publishedYear: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -37,14 +31,6 @@ class Book extends Model {
                 notNull: { msg: 'Ano de publicação nulo' },
             }
         },
-
-        isbn: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                len: { args: [10, 13], msg: 'O ISBN deve ter entre 10 e 13 caracteres' },
-            }
-        }
         
       },
       {
@@ -56,7 +42,9 @@ class Book extends Model {
   } 
 
   static associate(models) {
-    // Defina associações aqui, se necessário
+    this.belongsTo(models.author, { foreignKey: 'author_id', as: 'author' });
+    this.belongsTo(models.genre, { foreignKey: 'genre_id', as: 'genre' });
+    this.belongsTo(models.publisher, { foreignKey: 'publisher_id', as: 'publisher' });
   }
 };
 
