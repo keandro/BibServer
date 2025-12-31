@@ -4,7 +4,7 @@
   "description": "",
   "license": "MIT",
   "author": "Leandro Fraga",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js"
